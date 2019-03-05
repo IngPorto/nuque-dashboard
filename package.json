@@ -1,0 +1,22 @@
+{
+  "name": "nextjs-practica",
+  "version": "1.0.0",
+  "description": "Using Next.js, a React.js's fremework in a preactice based a platzi course.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [
+    "reactjs",
+    "nextjs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^8.0.3",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
+  }
+}
