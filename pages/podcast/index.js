@@ -1,7 +1,8 @@
 import 'isomorphic-fetch'
-import Link from 'next/link'
+import {Link} from '../../routes'
 import Head from 'next/head'
 import Error from 'next/error'
+import slug from '../../helpers/slug'
 
 export default class extends React.Component{
 
@@ -32,7 +33,14 @@ export default class extends React.Component{
                 <div className="channels"> 
                     { 
                         channels.map((channel) => (
-                            <Link as={`/${channel.title}`} href={`/podcast/channel?id=${channel.id}`} prefetch>
+                            <Link 
+                                route='podcast/channel' 
+                                params={{
+                                    slug: slug(channel.title),
+                                    id: channel.id
+                                }}
+                                prefetch
+                            >
                                 <a className="channel">
                                     <img src={channel.urls.logo_image.original} alt=""/>
                                     <h2>{ channel.title }</h2>
