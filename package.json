@@ -4,9 +4,9 @@
   "description": "Using Next.js, a React.js's fremework in a preactice based a platzi course.",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [
     "reactjs",
@@ -20,7 +20,9 @@
     "@material-ui/icons": "3.0.2",
     "isomorphic-fetch": "^2.2.1",
     "next": "8.0.3",
+    "next-routes": "^1.4.2",
     "react": "16.8.3",
-    "react-dom": "16.8.3"
+    "react-dom": "16.8.3",
+    "slugify": "^1.3.4"
   }
 }
