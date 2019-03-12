@@ -10,7 +10,12 @@ class main_SeccionQueEs extends React.Component{
                         <Typography variant="body1">
                             ¿Qué es?
                         </Typography>
-                        <img src="/static/nav_brand.png"/>
+                        <img 
+                            src="/static/logo_nuque_basic.svg"
+                            style= {{
+                                width: '50px'
+                            }}
+                        />
                     </Grid>
                 </div>
                 <style jsx>{`
