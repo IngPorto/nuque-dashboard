@@ -39,7 +39,9 @@ class main_Portada extends React.Component{
                                 style={
                                     {
                                         color:'white', 
-                                        background:'#d85232'
+                                        background:'#d85232',
+                                        borderRadius: '0px',
+                                        padding: '12px 30px'
                                     }
                                 }>
                                 Empieza gratis
