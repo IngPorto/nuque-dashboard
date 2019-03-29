@@ -17,6 +17,7 @@ class main_LaptopScreenshot extends React.Component {
                 <style jsx>{`
                     .LaptopScreenshot {
                         width: 100%;
+                        height: 450px;
                     }
                     .contenedorImagen{
                         width: 100%;
