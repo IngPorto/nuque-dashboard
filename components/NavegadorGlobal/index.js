@@ -62,7 +62,8 @@ class main_NavegadorGlobal extends React.Component{
                             {
                                 color:'white', 
                                 background:'#d85232',
-                                float: 'right'
+                                float: 'right',
+                                borderRadius: '0px'
                             }
                         }>
                         Crear una cuenta
