@@ -5,6 +5,8 @@ import NavegadorGlobal from '../components/NavegadorGlobal'
 import Portada from '../components/Portada'
 import LaptopScreenshot from '../components/LaptopScreenshot'
 import SeccionQueEs from '../components/SeccionQueEs'
+import SeccionEquipo from '../components/SeccionEquipo'
+import FooterIndex from '../components/FooterIndex'
 
 
 import Grid from '@material-ui/core/Grid';
@@ -17,10 +19,11 @@ export default class extends React.Component {
                 <Portada />
                 <LaptopScreenshot />
                 <SeccionQueEs />
+                <SeccionEquipo />
+                <FooterIndex />
                 {
                     /*
                     <SeccionComoFunciona />
-                    <SeccionEquipo />
                     <SeccionContacto />
                     */
                 }
