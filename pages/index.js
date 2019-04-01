@@ -8,12 +8,12 @@ import SeccionQueEs from '../components/SeccionQueEs'
 import SeccionEquipo from '../components/SeccionEquipo'
 import FooterIndex from '../components/FooterIndex'
 
-
+// Material-ui components
 import Grid from '@material-ui/core/Grid';
 
 export default class extends React.Component {
     render(){
-        return <div className="mainContainer">
+        return <div className="mainContainerIndex">
             <Grid container spacing={0} >
                 <NavegadorGlobal />
                 <Portada />
@@ -34,7 +34,7 @@ export default class extends React.Component {
                     margin:0;
                 }
                 /*
-                .mainContainer{
+                .mainContainerIndex{
                     width: 1200px;
                 }
                 */
