@@ -13,6 +13,7 @@ class index_AreaPrincipalDashboard extends React.Component {
                     .AreaPrincipalDashboard {
                         float: left;
                         width: calc(100% - 178px);
+                        overflow: hidden;
                     }    
                 `}</style>
             </div>
