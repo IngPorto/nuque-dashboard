@@ -9,7 +9,7 @@ class index_MenuGlobal extends React.Component {
         return (
             <div className="MenuGlobal">
                 <div className="contenedorOpcionesDeMenu">
-                    {'Opciones de menú'}
+                    {' '}
                 </div>
                 <div className="contenedorUsuarioMenu">
                     <Typography variant="body1" style={{
@@ -45,7 +45,7 @@ class index_MenuGlobal extends React.Component {
                     .contenedorUsuarioMenu {
                         width: fit-content;
                         float: right;
-                        margin-bottom: 10px;
+                        margin: 0 10px 10px 0;
                     }
                     .imgUserMenu {
                         height: 30px;
