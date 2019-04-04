@@ -64,6 +64,16 @@ class index_BarraLateral extends React.Component {
                         <div className="ff"></div>
                         <div className="fx"></div>
                     </div>
+                    <div className="seleccionadoItemProyecto">
+                        <Layers style={{
+                            float: 'left',
+                            marginLeft: '10px',
+                            marginRight: '5px'
+                        }}/>
+                        <p> { 'proyecto con un nombre muy largo' } </p>
+                        <div className="seleccionado-ff"></div>
+                        <div className="seleccionado-fx"></div>
+                    </div>
                 </div>
                 <div>
                     <div className="contenedorBuscadorProyectos">
@@ -141,19 +151,19 @@ class index_BarraLateral extends React.Component {
                         cursor: pointer;
                     }
                     .ff {
-                        height: 20px;
+                        height: 41px;
                         width: 12px;
                         position: relative;
-                        top: -18px;
+                        top: -27px;
                         float: right;
                         filter: blur(3px);
                         background: #ebedf1;
                     }
                     .fx {
-                        height: 20px;
+                        height: 41px;
                         width: 4px;
                         position: relative;
-                        top: -18px;
+                        top: -27px;
                         float: right;
                         right: -12px;
                         background: #ebedf1;
@@ -163,6 +173,44 @@ class index_BarraLateral extends React.Component {
                         position: absolute;
                         bottom: 0;
                         margin-bottom: 5px;
+                    }
+                    .seleccionadoItemProyecto {
+                        background: #404954;
+                        color: white;
+                        height: 33px;
+                        text-align: left;
+                        padding-top: 8px;
+                    }
+                    .seleccionadoItemProyecto:hover {
+                        background: #545d69;
+                    }
+                    .seleccionadoItemProyecto p {
+                        font-weight: 400;
+                        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+                        line-height: 1.46429em;
+                        font-size: 8pt;
+                        height: fit-content;
+                        margin-top: 4px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
+                    .seleccionado-ff {
+                        height: 41px;
+                        width: 12px;
+                        position: relative;
+                        top: -37px;
+                        float: right;
+                        filter: blur(1px);
+                        background: #404954;
+                    }
+                    .seleccionado-fx {
+                        height: 41px;
+                        width: 4px;
+                        position: relative;
+                        top: -37px;
+                        float: right;
+                        right: -12px;
+                        background: #e55430;
                     }
                 `}</style>
             </div>
