@@ -17,7 +17,7 @@ class index_BarraLateral extends React.Component {
                     <p className="betaTexto font-roboto-regular">beta</p>
                 </div>
                 <button className="btnNuevoProyecto">
-                    <Add style={{
+                    <Add className="" style={{
                         float:'left'
                     }}/>
                     <Typography variant="body1" style={{
@@ -46,7 +46,7 @@ class index_BarraLateral extends React.Component {
                 </div>
                 <div className="contenedorDeProyectos">
                     <div className="itemProyecto">
-                        <Layers style={{
+                        <Layers className="" style={{
                             float: 'left',
                             marginLeft: '10px',
                             marginRight: '5px'
@@ -65,7 +65,7 @@ class index_BarraLateral extends React.Component {
                         <div className="fx"></div>
                     </div>
                     <div className="seleccionadoItemProyecto">
-                        <Layers style={{
+                        <Layers className="" style={{
                             float: 'left',
                             marginLeft: '10px',
                             marginRight: '5px'
@@ -77,7 +77,7 @@ class index_BarraLateral extends React.Component {
                 </div>
                 <div>
                     <div className="contenedorBuscadorProyectos">
-                        <Search style={{
+                        <Search className="" style={{
                             float: 'left',
                             color: '#4f4f4f',
                             width: '15%',
@@ -136,6 +136,10 @@ class index_BarraLateral extends React.Component {
                         cursor: pointer;
                         background: #f25b36;
                     }
+                    .btnNuevoProyecto:active {
+                        position:relative;
+                        top:1px;
+                    }
                     .tituloTusProyectos {
                         width: 100%;
                         height: 33px;
@@ -151,7 +155,7 @@ class index_BarraLateral extends React.Component {
                         cursor: pointer;
                     }
                     .ff {
-                        height: 41px;
+                        height: 36px;
                         width: 12px;
                         position: relative;
                         top: -27px;
@@ -195,10 +199,10 @@ class index_BarraLateral extends React.Component {
                         white-space: nowrap;
                     }
                     .seleccionado-ff {
-                        height: 41px;
+                        height: 36px;
                         width: 12px;
                         position: relative;
-                        top: -37px;
+                        top: -34px;
                         float: right;
                         filter: blur(1px);
                         background: #404954;
