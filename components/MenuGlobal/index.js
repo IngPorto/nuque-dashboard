@@ -20,7 +20,7 @@ class index_MenuGlobal extends React.Component {
                         David Portocarrero Caicedo
                     </Typography>
                     <img className="imgUserMenu" src="static/david_porto.jpg" alt="" />
-                    <KeyboardArrowDown style={{
+                    <KeyboardArrowDown className="" style={{
                         color: '#8f8f8f'
                     }}/>
                 </div>
