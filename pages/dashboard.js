@@ -10,7 +10,6 @@ import MenuGlobal from "../components/MenuGlobal";
 import MenuDeOpcionesDeProyecto from "../components/MenuDeOpcionesDeProyecto";
 import PanelDeServicios from "../components/PanelDeServicios";
 import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
-import Grid from '@material-ui/core/Grid';
 
  export default class extends React.Component {
     render(){
