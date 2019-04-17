@@ -11,7 +11,7 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
             <div className="MenuDeOpcionesDeProyecto">
                 <div className="contenedorDescripcionProyecto">
                     <button className="btnEditarDescripcion"><Create className="" /></button>
-                    <p className="textoDescripcionProyecto">{ 'Nueva descripción del proyecto' }</p>
+                    <p className="textoDescripcionProyecto font-roboto-regular">{ 'Nueva descripción del proyecto' }</p>
                     <button className="btnImportarServicio">
                         <MoveToInbox className="" style={{
                             float: 'left',
@@ -46,6 +46,9 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                     }
                     .textoDescripcionProyecto{
                         float: left;
+                        font-size: 0.875rem;
+                        color: rgba(0, 0, 0, 0.87);
+                        margin: 10px 0 0 10px;
                     }
 
                     .btnImportarServicio{
