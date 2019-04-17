@@ -11,22 +11,40 @@ import MenuDeOpcionesDeProyecto from "../components/MenuDeOpcionesDeProyecto";
 import PanelDeServicios from "../components/PanelDeServicios";
 import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
 
- export default class extends React.Component {
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { addCambiarVisibilidadSMPS } from '../store'
+import { connect } from 'react-redux'
+
+ class Dashboard extends React.Component {
+    
+    static getInitialProps ({ store , x }) {
+        //store.dispatch(addCambiarVisibilidadSMPS())
+        //console.log( x )
+        return {  }
+    }
+
+    hand = () => {
+        console.log(this.props.addCambiarVisibilidadSMPS(!this.props.initalState.visibilidadSubMenuPerfilServicio))
+    }
+
     render(){
+        //const { store } = this.props
+        console.log("estado A: "+this.props.initalState.visibilidadSubMenuPerfilServicio)
+        //console.log("estado B: "+this.props.initalState.visibilidadSubMenuPerfilServicio)
+
         return (
+            <div onClick={this.hand}>
+                llsls
+            
+            {/*
             <div className="mainContainerDashboard">
-                <div >
-                    { /* Icono, botón nuevo proyecto, tus proyectos, buscador */}
-                    <BarraLateral />
-                    <AreaPrincipalDashboard>
-                        { /* Nombre del usuario , buscador de servicios */}
-                        <MenuGlobal />
-                        { /* Descripción del proyecto, botón importar servicio */}
-                        <MenuDeOpcionesDeProyecto />
-                        { /* 1. botón nuevo servicio, crea tu primer servicio. 2. todos los servcios */}
-                        <PanelDeServicios />
-                    </AreaPrincipalDashboard>
-                </div>
+                <BarraLateral />
+                <AreaPrincipalDashboard>
+                    <MenuGlobal />
+                    <MenuDeOpcionesDeProyecto />
+                    <PanelDeServicios />
+                </AreaPrincipalDashboard>
                 <style jsx global>{`
                     @font-face {
                         font-family: 'Roboto-thin';
@@ -79,6 +97,30 @@ import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
                     }
                 `}</style>
             </div>
+            */ }
+            </div>
         )
     }
  }
+
+/*
+const mapStateToProps = (state) =>{
+    return {
+        visibilidadSubMenuPerfilServicio: state.visibilidadSubMenuPerfilServicio
+    }
+}
+*/
+function mapStateToProps(state, props){
+    console.log(state)
+    return {
+        initalState: state
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addCambiarVisibilidadSMPS:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch)
+    }
+}
+
+ export default  connect( mapStateToProps, mapDispatchToProps )(Dashboard)
