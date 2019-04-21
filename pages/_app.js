@@ -1,8 +1,8 @@
 /**
  * Este archivo es necesario para que funcione REDUX en NEXT.JS.
- * Funciona com el contenedor del estado globar, así todos los 
+ * Funciona como contenedor del estado global, así todos las 
  * demás páginas y otros componentes solo tienen que usar el 
- * connect para acceder al estado o a los action para cambiar el
+ * connect para acceder al estado y a los action para cambiar el
  * estado. Para ello se usa el mapStateToProps y mapDispatchToProps
  * como normalmente se usa en REDUX.
  * ref: https://github.com/zeit/next.js/blob/master/examples/with-redux-wrapper/
