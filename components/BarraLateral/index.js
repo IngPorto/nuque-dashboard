@@ -7,6 +7,10 @@ import Layers from '@material-ui/icons/Layers';
 import Search from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 
+import { bindActionCreators } from 'redux'
+import { addCambiarVisibilidadSMPS } from '../../store'
+import { connect } from 'react-redux'
+
 class index_BarraLateral extends React.Component {
     render(){
         return (
@@ -221,4 +225,18 @@ class index_BarraLateral extends React.Component {
         )
     }
 }
-export default index_BarraLateral
+
+function mapStateToProps(state, props){
+    console.log(state)
+    return {
+        initalState: state
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addCambiarVisibilidadSMPS:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch)
+    }
+}
+
+export default  connect( mapStateToProps, mapDispatchToProps )(index_BarraLateral)
