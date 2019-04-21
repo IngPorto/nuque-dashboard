@@ -12,32 +12,22 @@ import LowPriority  from '@material-ui/icons/LowPriority';
 import Create from '@material-ui/icons/Create';
 import Delete from '@material-ui/icons/Delete';
 
-/*
-import { addCambiarVisibilidadSMPS, initStore } from '../../store'
-import withRedux from "next-redux-wrapper";
-*/
-import { bindActionCreators } from 'redux'
-import { addCambiarVisibilidadSMPS } from '../../store'
-import { connect } from 'react-redux'
-
 class index_PanelDeServicios extends React.Component {
 
-    static getInitialProps({store, _estadoVisibilidadSubMenuPerfilServicio}) {
-        console.log(store)
-        //store.dispatch({type: 'cambiarVisibilidadSMPS', payload: true});
-        return {custom: 'custom'}; // pass some custom props to component
+    componentWillMount(){
+        this.props.addCambiarProyectoActualmenteSeleccionado(0)
     }
 
     handleClickSubMenuPerfilServicio = () =>{
-        //addCambiarVisibilidadSMPS(true)
-        //this.props.store.dispatch('cambiarVisibilidadSMPS')
-        //alert('ok' +  this.props.store.getState().visibilidadSubMenuPerfilServicio)
-        //console.log (this.props.store.getState().visibilidadSubMenuPerfilServicio)
+        this.props.addCambiarVisibilidadSMPS(!this.props.initalState.visibilidadSubMenuPerfilServicio)
         console.log (this.props)
-        //console.log (this.props.store.getState().visibilidadSubMenuPerfilServicio)
     }
 
     render(){
+        //const servicios = this.props.initalState.proyectos[this.props.initalState.proyectoActualmenteSeleccionado].servicios
+        //const servicios = this.props.initalState.proyectos[0].servicios
+        // el problema está aquí, puede es que "servicio" no se interpreta como un arreglo
+
         return(
             <div className="PanelDeServicios">
                 <div className="contenedorCentralPanelDeServicios">
@@ -49,92 +39,99 @@ class index_PanelDeServicios extends React.Component {
                         <p className="textoNuevoServicio font-roboto-regular">Nuevo servicio</p>
                     </div>
                     <div className="carrilDePerfilesDeServicio">
-                        <div className="perfilDeServicio">
-                            <div className="headerPerfilDeServicio">
-                                <Widgets style={{
-                                    color: '#2f2f2f',
-                                    float: 'left'
-                                }} />
-                                <p className="resetText tituloPerfilServicio font-roboto-regular">{ "Servicio para Login" }</p>
-                                <MoreVert 
-                                    style={{
-                                        float: 'right',
-                                        color: '#2f2f2f',
-                                        width: '23px',
-                                        cursor: 'pointer' 
-                                    }}
-                                    onClick= { this.handleClickSubMenuPerfilServicio }
-                                />                            
-                                <p className="textoEnLinea resetText textoPerfilServicio font-roboto-regular"> {'En línea'}</p>
-                                <div className="Toggle ToggleOn">
-                                    <ToggleOn style={{
-                                        float: 'right',
-                                        height: '40px',
-                                        width: '40px',
-                                        position: 'relative',
-                                        top: '-8px',
-                                        cursor: 'pointer' }}
-                                    />
-                                </div>
-                            </div>
-                            <div className="bodyPerfilDeServicio">
-                                <p className="resetText textoPerfilServicio font-roboto-regular">Acceso:</p>
-                                <p className="resetText textoPerfilServicio font-roboto-regular">Código:</p>
-                                <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo:</p>
-                                <p className="resetText textoPerfilServicio font-roboto-regular">Formato:</p>
-                            </div>
-                            <div className="footerPerfilDeServicio">
-                                <p className="resetText textoPerfilServicio font-roboto-regular">Creado el {'02/02/19'}</p>
-                            </div>
-                            { 
-                                /* this.props.store.getState().visibilidadSubMenuPerfilServicio & */
-                             
-                            <div className="SubMenuPerfilServicio">
-                                <div className="marcoSubMenu">
-                                    <div className="SubMenuPerfilServicioOpcion">
-                                        <FileCopy style={{
-                                            float: 'left',
-                                            width: '15px',
-                                            marginLeft: '12px'
-                                        }}/>
-                                        <p className="textoOpcionServicio resetText font-roboto-regular">
-                                            Duplicar
-                                        </p>
+                        { 
+                            /* Perfiles de servicios HERE */ 
+                            //servicios.map(servicio =>{
+                            //    return(
+                                    <div className="perfilDeServicio">
+                                        <div className="headerPerfilDeServicio">
+                                            <Widgets style={{
+                                                color: '#2f2f2f',
+                                                float: 'left'
+                                            }} />
+                                            <p className="resetText tituloPerfilServicio font-roboto-regular">{ /*this.props.initalState.servicios[servicio]*/ "temp" }</p>
+                                            <MoreVert 
+                                                style={{
+                                                    float: 'right',
+                                                    color: '#2f2f2f',
+                                                    width: '23px',
+                                                    cursor: 'pointer' 
+                                                }}
+                                                onClick= { this.handleClickSubMenuPerfilServicio }
+                                            />                            
+                                            <p className="textoEnLinea resetText textoPerfilServicio font-roboto-regular"> {'En línea'}</p>
+                                            <div className="Toggle ToggleOn">
+                                                <ToggleOn style={{
+                                                    float: 'right',
+                                                    height: '40px',
+                                                    width: '40px',
+                                                    position: 'relative',
+                                                    top: '-8px',
+                                                    cursor: 'pointer' }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="bodyPerfilDeServicio">
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Acceso:</p>
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Código:</p>
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo:</p>
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Formato:</p>
+                                        </div>
+                                        <div className="footerPerfilDeServicio">
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Creado el {'02/02/19'}</p>
+                                        </div>
+                                        { 
+                                            this.props.initalState.visibilidadSubMenuPerfilServicio && 
+                                        
+                                        <div className="SubMenuPerfilServicio">
+                                            <div className="marcoSubMenu">
+                                                <div className="SubMenuPerfilServicioOpcion">
+                                                    <FileCopy style={{
+                                                        float: 'left',
+                                                        width: '15px',
+                                                        marginLeft: '12px'
+                                                    }}/>
+                                                    <p className="textoOpcionServicio resetText font-roboto-regular">
+                                                        Duplicar
+                                                    </p>
+                                                </div>
+                                                <div className="SubMenuPerfilServicioOpcion">
+                                                    <LowPriority style={{
+                                                        float: 'left',
+                                                        width: '15px',
+                                                        marginLeft: '12px'
+                                                    }}/>
+                                                    <p className="textoOpcionServicio resetText font-roboto-regular">
+                                                        Mover de proyecto
+                                                    </p>
+                                                </div>
+                                                <div className="SubMenuPerfilServicioOpcion">
+                                                    <Create style={{
+                                                        float: 'left',
+                                                        width: '15px',
+                                                        marginLeft: '12px'
+                                                    }}/>
+                                                    <p className="textoOpcionServicio resetText font-roboto-regular">
+                                                        Modificar
+                                                    </p>
+                                                </div>
+                                                <div className="SubMenuPerfilServicioOpcion">
+                                                    <Delete style={{
+                                                        float: 'left',
+                                                        width: '15px',
+                                                        marginLeft: '12px'
+                                                    }}/>
+                                                    <p className="textoOpcionServicio resetText font-roboto-regular">
+                                                        Eliminar
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
                                     </div>
-                                    <div className="SubMenuPerfilServicioOpcion">
-                                        <LowPriority style={{
-                                            float: 'left',
-                                            width: '15px',
-                                            marginLeft: '12px'
-                                        }}/>
-                                        <p className="textoOpcionServicio resetText font-roboto-regular">
-                                            Mover de proyecto
-                                        </p>
-                                    </div>
-                                    <div className="SubMenuPerfilServicioOpcion">
-                                        <Create style={{
-                                            float: 'left',
-                                            width: '15px',
-                                            marginLeft: '12px'
-                                        }}/>
-                                        <p className="textoOpcionServicio resetText font-roboto-regular">
-                                            Modificar
-                                        </p>
-                                    </div>
-                                    <div className="SubMenuPerfilServicioOpcion">
-                                        <Delete style={{
-                                            float: 'left',
-                                            width: '15px',
-                                            marginLeft: '12px'
-                                        }}/>
-                                        <p className="textoOpcionServicio resetText font-roboto-regular">
-                                            Eliminar
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-                        </div>
+                                //)
+                            //})
+                        }
                         <div className="perfilDeServicio"></div>
                     </div>
                 </div>
@@ -287,17 +284,4 @@ class index_PanelDeServicios extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        visibilidadSubMenuPerfilServicio:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch)
-    }
-}
-
-export default index_PanelDeServicios  /* 
-    // Traigo el estado inicial
-    initStore , 
-    // Similar al mapStateToProps
-    ( { visibilidadSubMenuPerfilServicio } ) => ({ visibilidadSubMenuPerfilServicio }) ,
-    // Similar al mapDispatchToProps
-    { addCambiarVisibilidadSMPS }  
-    )(  ) */
+export default index_PanelDeServicios
