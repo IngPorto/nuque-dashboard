@@ -11,9 +11,13 @@ import MenuDeOpcionesDeProyecto from "../components/MenuDeOpcionesDeProyecto";
 import PanelDeServicios from "../components/PanelDeServicios";
 import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
 
-import React from 'react'
 import { bindActionCreators } from 'redux'
-import { addCambiarVisibilidadSMPS } from '../store'
+import { 
+    addCambiarVisibilidadSMPS, 
+    addCambiarDescripcionProyecto, 
+    addCambiarVisibilidadMDP, 
+    addCambiarProyectoActualmenteSeleccionado
+} from '../store'
 import { connect } from 'react-redux'
 
  class Dashboard extends React.Component {
@@ -30,20 +34,16 @@ import { connect } from 'react-redux'
 
     render(){
         //const { store } = this.props
-        console.log("estado A: "+this.props.initalState.visibilidadSubMenuPerfilServicio)
+        //console.log("estado A: "+this.props.initalState.visibilidadSubMenuPerfilServicio)
         //console.log("estado B: "+this.props.initalState.visibilidadSubMenuPerfilServicio)
 
         return (
-            <div onClick={this.hand}>
-                llsls
-            
-            {/*
             <div className="mainContainerDashboard">
                 <BarraLateral />
                 <AreaPrincipalDashboard>
                     <MenuGlobal />
-                    <MenuDeOpcionesDeProyecto />
-                    <PanelDeServicios />
+                    <MenuDeOpcionesDeProyecto {...this.props}/>
+                    <PanelDeServicios {...this.props}/>
                 </AreaPrincipalDashboard>
                 <style jsx global>{`
                     @font-face {
@@ -97,19 +97,10 @@ import { connect } from 'react-redux'
                     }
                 `}</style>
             </div>
-            */ }
-            </div>
         )
     }
  }
 
-/*
-const mapStateToProps = (state) =>{
-    return {
-        visibilidadSubMenuPerfilServicio: state.visibilidadSubMenuPerfilServicio
-    }
-}
-*/
 function mapStateToProps(state, props){
     console.log(state)
     return {
@@ -119,7 +110,10 @@ function mapStateToProps(state, props){
 
 const mapDispatchToProps = dispatch => {
     return {
-        addCambiarVisibilidadSMPS:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch)
+        addCambiarVisibilidadSMPS:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch),
+        addCambiarDescripcionProyecto:  bindActionCreators(addCambiarDescripcionProyecto, dispatch),
+        addCambiarVisibilidadMDP:  bindActionCreators(addCambiarVisibilidadMDP, dispatch),
+        addCambiarProyectoActualmenteSeleccionado:  bindActionCreators(addCambiarProyectoActualmenteSeleccionado, dispatch)
     }
 }
 
