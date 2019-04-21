@@ -4,19 +4,49 @@
 import Create from '@material-ui/icons/Create';
 import MoveToInbox from '@material-ui/icons/MoveToInbox';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import ModalDescripcionProyecto from '../ModalDescripcionProyecto';
 
 class index_MenuDeOpcionesDeProyecto extends React.Component {
+    constructor(props){
+        super(props)
+        
+    }
+    
+    componentWillMount(){
+    }
+
+    handleClickImportarServicio = () =>{
+        console.log("Click event: Importar servicio")
+    }
+
+    handleClickEditarDescripcion = () =>{
+        this.props.addCambiarVisibilidadMDP(!this.props.initalState.visibilidadModalDescripcionProyecto)
+        console.log("Click event: Editar descripcion")
+    }
+
     render(){ 
         return(
             <div className="MenuDeOpcionesDeProyecto">
                 <div className="contenedorDescripcionProyecto">
-                    <button className="btnEditarDescripcion"><Create className="" /></button>
-                    <p className="textoDescripcionProyecto font-roboto-regular">{ 'Nueva descripción del proyecto' }</p>
-                    <button className="btnImportarServicio">
-                        <MoveToInbox className="" style={{
-                            float: 'left',
-                            margin: '3px'
-                        }}/> 
+                    <button 
+                        className="btnEditarDescripcion"
+                        onClick= { this.handleClickEditarDescripcion }
+                    >
+                        <Create className="" />
+                    </button>
+                    <p className="textoDescripcionProyecto font-roboto-regular">{ this.props.initalState.proyectos[0].descripcion }</p>
+                    <button 
+                        className="btnImportarServicio"
+                        onClick= { this.handleClickImportarServicio }
+                    >
+                        <MoveToInbox 
+                            className="" 
+                            style={{
+                                float: 'left',
+                                margin: '3px'
+                            }}
+                        /> 
                         <p>Importar servicio</p>
                     </button>
                 </div>
@@ -34,6 +64,13 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                         Tus servicios
                     </Typography>
                 </div>
+                {
+                    this.props.initalState.visibilidadModalDescripcionProyecto &&
+                    <ModalDescripcionProyecto 
+                        { ...this.props}
+                        handleClickEditarDescripcion= { this.handleClickEditarDescripcion }
+                    />
+                }
                 <style jsx>{`
                     .MenuDeOpcionesDeProyecto {
                         width: 100%;
@@ -69,7 +106,9 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                         width: 36px;
                         float: left;
                     }
-                    .btnEditarDescripcion, .btnImportarServicio {
+                    .btnEditarDescripcion, 
+                    .btnImportarServicio, 
+                    .btnAceptarModalDescripcionProyecto {
                         -moz-box-shadow:inset 0px 1px 3px 0px #f0f0f0;
                         -webkit-box-shadow:inset 0px 1px 3px 0px #f0f0f0;
                         box-shadow:inset 0px 1px 3px 0px #f0f0f0;
@@ -87,7 +126,9 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                     .btnEditarDescripcion:hover, .btnImportarServicio:hover {
                         background-color:transparent;
                     }
-                    .btnEditarDescripcion:active, .btnImportarServicio:active {
+                    .btnEditarDescripcion:active, 
+                    .btnImportarServicio:active,
+                    .btnAceptarModalDescripcionProyecto:active {
                         position:relative;
                         top:1px;
                     }
@@ -95,9 +136,15 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                         float: left;
                         margin: 8px;
                     }
+                    .btnAceptarModalDescripcionProyecto {
+                        padding: 10px 20px;
+                    }
+                    .inputModalDescripcionProyecto {
+
+                    }
                 `}</style>
             </div>
         )
     }
 }
-export default index_MenuDeOpcionesDeProyecto
+export default  index_MenuDeOpcionesDeProyecto
