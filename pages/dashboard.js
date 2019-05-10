@@ -39,7 +39,7 @@ import { connect } from 'react-redux'
 
         return (
             <div className="mainContainerDashboard">
-                <BarraLateral />
+                <BarraLateral {...this.props} />
                 <AreaPrincipalDashboard>
                     <MenuGlobal />
                     <MenuDeOpcionesDeProyecto {...this.props}/>
@@ -102,7 +102,7 @@ import { connect } from 'react-redux'
  }
 
 function mapStateToProps(state, props){
-    console.log(state)
+    //console.log(state)
     return {
         initalState: state
     }
