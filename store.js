@@ -23,7 +23,8 @@ const initialState = {
         "P1B3": {
             id: "P1B3",
             nombre: "Servicio para Login",
-            estado: true,
+            estado: "En línea",
+            toggle: "ToggleOn",
             fechaCreacion: "21/02/19",
             rutaDeAcceso: "",
             proyecto: "P-t8t"
@@ -31,7 +32,8 @@ const initialState = {
         "3ll0": {
             id: "3ll0",
             nombre: "Servicio de almacenaje de nombres",
-            estado: false,
+            estado: "Apagado",
+            toggle: "ToggleOff",
             fechaCreacion: "12/04/19",
             rutaDeAcceso: "",
             proyecto: "P-t8t"
