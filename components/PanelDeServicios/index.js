@@ -14,19 +14,24 @@ import Delete from '@material-ui/icons/Delete';
 
 class index_PanelDeServicios extends React.Component {
 
-    componentWillMount(){
+    constructor(props){
+        super(props)
         this.props.addCambiarProyectoActualmenteSeleccionado(0)
+    }
+
+    componentWillMount(){
     }
 
     handleClickSubMenuPerfilServicio = () =>{
         this.props.addCambiarVisibilidadSMPS(!this.props.initalState.visibilidadSubMenuPerfilServicio)
-        console.log (this.props)
+        //console.log (this.props)
     }
 
     render(){
-        //const servicios = this.props.initalState.proyectos[this.props.initalState.proyectoActualmenteSeleccionado].servicios
-        //const servicios = this.props.initalState.proyectos[0].servicios
-        // el problema está aquí, puede es que "servicio" no se interpreta como un arreglo
+        // Como el primer render trae datos vacíos en el initial state, solo uso el initial state cuando el tipo de dato sea un numero y no vacío
+        const servicios = typeof this.props.initalState.proyectoActualmenteSeleccionado == 'number' && this.props.initalState.proyectos[this.props.initalState.proyectoActualmenteSeleccionado].servicios 
+        //console.log("Proyecto seleccionado: " + this.props.initalState.proyectoActualmenteSeleccionado)
+        //console.log(servicios)
 
         return(
             <div className="PanelDeServicios">
@@ -40,16 +45,17 @@ class index_PanelDeServicios extends React.Component {
                     </div>
                     <div className="carrilDePerfilesDeServicio">
                         { 
-                            /* Perfiles de servicios HERE */ 
-                            //servicios.map(servicio =>{
-                            //    return(
+                            // Si el servicio existe hago renderizo, sino, no 
+                            servicios &&
+                            servicios.map(servicio =>{
+                                return(
                                     <div className="perfilDeServicio">
                                         <div className="headerPerfilDeServicio">
                                             <Widgets style={{
                                                 color: '#2f2f2f',
                                                 float: 'left'
                                             }} />
-                                            <p className="resetText tituloPerfilServicio font-roboto-regular">{ /*this.props.initalState.servicios[servicio]*/ "temp" }</p>
+                                            <p className="resetText tituloPerfilServicio font-roboto-regular">{ this.props.initalState.servicios[servicio].nombre }</p>
                                             <MoreVert 
                                                 style={{
                                                     float: 'right',
@@ -58,9 +64,9 @@ class index_PanelDeServicios extends React.Component {
                                                     cursor: 'pointer' 
                                                 }}
                                                 onClick= { this.handleClickSubMenuPerfilServicio }
-                                            />                            
-                                            <p className="textoEnLinea resetText textoPerfilServicio font-roboto-regular"> {'En línea'}</p>
-                                            <div className="Toggle ToggleOn">
+                                            />
+                                            <p className="textoEnLinea resetText textoPerfilServicio font-roboto-regular">{this.props.initalState.servicios[servicio].estado}</p>
+                                            <div className={"Toggle "+ this.props.initalState.servicios[servicio].toggle}>
                                                 <ToggleOn style={{
                                                     float: 'right',
                                                     height: '40px',
@@ -69,7 +75,7 @@ class index_PanelDeServicios extends React.Component {
                                                     top: '-8px',
                                                     cursor: 'pointer' }}
                                                 />
-                                            </div>
+                                            </div>                                            
                                         </div>
                                         <div className="bodyPerfilDeServicio">
                                             <p className="resetText textoPerfilServicio font-roboto-regular">Acceso:</p>
@@ -78,7 +84,7 @@ class index_PanelDeServicios extends React.Component {
                                             <p className="resetText textoPerfilServicio font-roboto-regular">Formato:</p>
                                         </div>
                                         <div className="footerPerfilDeServicio">
-                                            <p className="resetText textoPerfilServicio font-roboto-regular">Creado el {'02/02/19'}</p>
+                                            <p className="resetText textoPerfilServicio font-roboto-regular">Creado el {this.props.initalState.servicios[servicio].fechaCreacion}</p>
                                         </div>
                                         { 
                                             this.props.initalState.visibilidadSubMenuPerfilServicio && 
@@ -129,8 +135,8 @@ class index_PanelDeServicios extends React.Component {
                                         </div>
                                         }
                                     </div>
-                                //)
-                            //})
+                                )
+                            })
                         }
                         <div className="perfilDeServicio"></div>
                     </div>
@@ -225,7 +231,7 @@ class index_PanelDeServicios extends React.Component {
                         outline: -webkit-focus-ring-color auto 5px;
                     }
                     .textoPerfilServicio {
-                        font-size: 0.879rem;
+                        font-size: 0.76rem;
                         color: #525f68;
                     }
                     .Toggle {
@@ -236,7 +242,9 @@ class index_PanelDeServicios extends React.Component {
                         color: green;
                     }
                     .ToggleOff {
-                        color: red;
+                        color: #b4b4b4;
+                        transform: rotate(180deg);
+                        height: 23px;
                     }
                     .textoEnLinea {
                         float: right;
