@@ -16,7 +16,9 @@ import {
     addCambiarVisibilidadSMPS, 
     addCambiarDescripcionProyecto, 
     addCambiarVisibilidadMDP, 
-    addCambiarProyectoActualmenteSeleccionado
+    addCambiarProyectoActualmenteSeleccionado,
+    addCrearNuevoProyecto,
+    addCrearNuevoServicio
 } from '../store'
 import { connect } from 'react-redux'
 
@@ -26,6 +28,15 @@ import { connect } from 'react-redux'
         //store.dispatch(addCambiarVisibilidadSMPS())
         //console.log( x )
         return {  }
+    }
+
+    componentWillMount(){
+        // si existe un proyecto lo selecciono el como default o 0 en el panel de servicios
+        if (this.props.initalState.proyectos.length > 0){
+            this.props.addCambiarProyectoActualmenteSeleccionado( 0 )
+        }else {
+            this.props.addCambiarProyectoActualmenteSeleccionado('')
+        }
     }
 
     hand = () => {
@@ -113,7 +124,9 @@ const mapDispatchToProps = dispatch => {
         addCambiarVisibilidadSMPS:  bindActionCreators(addCambiarVisibilidadSMPS, dispatch),
         addCambiarDescripcionProyecto:  bindActionCreators(addCambiarDescripcionProyecto, dispatch),
         addCambiarVisibilidadMDP:  bindActionCreators(addCambiarVisibilidadMDP, dispatch),
-        addCambiarProyectoActualmenteSeleccionado:  bindActionCreators(addCambiarProyectoActualmenteSeleccionado, dispatch)
+        addCambiarProyectoActualmenteSeleccionado:  bindActionCreators(addCambiarProyectoActualmenteSeleccionado, dispatch),
+        addCrearNuevoProyecto:  bindActionCreators(addCrearNuevoProyecto, dispatch),
+        addCrearNuevoServicio:  bindActionCreators(addCrearNuevoServicio, dispatch)
     }
 }
 
