@@ -21,11 +21,17 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
     }
 
     handleClickEditarDescripcion = () =>{
-        this.props.addCambiarVisibilidadMDP(!this.props.initalState.visibilidadModalDescripcionProyecto)
+        this.cerrarModalEditarDescripcion()
         console.log("Click event: Editar descripcion")
     }
 
+    cerrarModalEditarDescripcion = () => {
+        this.props.addCambiarVisibilidadMDP(!this.props.initalState.visibilidadModalDescripcionProyecto)
+    }
+
     render(){ 
+        const proyecto = typeof this.props.initalState.proyectoActualmenteSeleccionado == 'number' && this.props.initalState.proyectos[this.props.initalState.proyectoActualmenteSeleccionado]
+
         return(
             <div className="MenuDeOpcionesDeProyecto">
                 <div className="contenedorDescripcionProyecto">
@@ -35,7 +41,7 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                     >
                         <Create className="" />
                     </button>
-                    <p className="textoDescripcionProyecto font-roboto-regular">{ this.props.initalState.proyectos[0].descripcion }</p>
+                    <p className="textoDescripcionProyecto font-roboto-regular">{ proyecto.descripcion }</p>
                     <button 
                         className="btnImportarServicio"
                         onClick= { this.handleClickImportarServicio }
@@ -68,7 +74,8 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                     this.props.initalState.visibilidadModalDescripcionProyecto &&
                     <ModalDescripcionProyecto 
                         { ...this.props}
-                        handleClickEditarDescripcion= { this.handleClickEditarDescripcion }
+                        handleClickEditarDescripcion = { this.handleClickEditarDescripcion }
+                        cerrarModalEditarDescripcion = { this.cerrarModalEditarDescripcion }
                     />
                 }
                 <style jsx>{`
