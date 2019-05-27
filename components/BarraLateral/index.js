@@ -6,8 +6,39 @@ import Add from '@material-ui/icons/Add';
 import Layers from '@material-ui/icons/Layers';
 import Search from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+import ModalNuevoElemento from '../ModalNuevoElemento';
 
 class index_BarraLateral extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            modalNuevoProyecto: false
+        }
+    }
+
+    componentDidMount() {
+    }
+
+    handleModalNuevoProyecto = () => {
+        this.setState({
+            ...this.state,
+            modalNuevoProyecto: !this.state.modalNuevoProyecto
+        })
+    }
+
+    handleCambiarProyectoActualmenteSeleccionado = event => {
+        this.props.addCambiarProyectoActualmenteSeleccionado( parseInt(event.currentTarget.id) )
+        //console.log(event.currentTarget.id)
+    }
+
+    crearNuevoProyecto = (nombre, descripcion) => {
+        event.preventDefault();
+        // validar nombre*, si está disponible y si tiene más de tres caracteres
+        // crear proyecto en el state
+        this.props.addCrearNuevoProyecto( nombre, descripcion )
+        this.handleModalNuevoProyecto()
+    }
+
     render(){
         return (
             <div className="BarraLateral">
@@ -16,14 +47,16 @@ class index_BarraLateral extends React.Component {
                     <img className="logoFondoAzul" src="static/logo_nuque_bg_blue.svg" alt="" />
                     <p className="betaTexto font-roboto-regular">beta</p>
                 </div>
-                <button className="btnNuevoProyecto">
+                <button 
+                    className="btnNuevoProyecto"
+                    onClick={ this.handleModalNuevoProyecto }
+                >
                     <Add className="" style={{
                         float:'left'
                     }}/>
                     <Typography variant="body1" style={{
                         color:'white',
                         fontSize: '11pt',
-                        foat: 'left',
                         height: 'fit-content',
                         marginTop: '2px'
                     }}>
@@ -44,36 +77,30 @@ class index_BarraLateral extends React.Component {
                             Tus proyectos
                     </Typography>
                 </div>
+
                 <div className="contenedorDeProyectos">
-                    <div className="itemProyecto">
-                        <Layers className="" style={{
-                            float: 'left',
-                            marginLeft: '10px',
-                            marginRight: '5px'
-                        }}/>
-                        <Typography variant="body1" style={{
-                            fontSize: '8pt',
-                            foat: 'left',
-                            height: 'fit-content',
-                            marginTop: '4px',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap'
-                        }}>
-                            { 'proyecto con un nombre muy largo' }
-                        </Typography>
-                        <div className="ff"></div>
-                        <div className="fx"></div>
-                    </div>
-                    <div className="seleccionadoItemProyecto">
-                        <Layers className="" style={{
-                            float: 'left',
-                            marginLeft: '10px',
-                            marginRight: '5px'
-                        }}/>
-                        <p> { 'proyecto con un nombre muy largo' } </p>
-                        <div className="seleccionado-ff"></div>
-                        <div className="seleccionado-fx"></div>
-                    </div>
+                    {
+                        this.props.initalState.proyectos.map( (proyecto, index) => {
+                            return (
+                                <button
+                                    className={ index == this.props.initalState.proyectoActualmenteSeleccionado ? "seleccionadoItemProyecto":"itemProyecto"} 
+                                    id={ index }
+                                    onClick = { this.handleCambiarProyectoActualmenteSeleccionado }
+                                >
+                                    <Layers className="" style={{
+                                        float: 'left',
+                                        marginLeft: '10px',
+                                        marginRight: '5px'
+                                    }}/>
+                                    <p>
+                                        { proyecto.nombre }
+                                    </p>
+                                    <div className="ff"></div>
+                                    <div className="fx"></div>
+                                </button>
+                            )
+                        })
+                    }
                 </div>
                 <div>
                     <div className="contenedorBuscadorProyectos">
@@ -93,6 +120,16 @@ class index_BarraLateral extends React.Component {
                         />
                     </div>                    
                 </div>
+                {
+                    this.state.modalNuevoProyecto &&
+                    <ModalNuevoElemento 
+                        { ...this.props }
+                        handleClickAceptar = { this.crearNuevoProyecto }
+                        cerrarModal = { this.handleModalNuevoProyecto }
+                        textoLabel_1 = "Nombre del proyecto"
+                        textoLabel_2 = "Descripción del proyecto"
+                    />
+                }
                 <style jsx>{`
                     .BarraLateral {
                         width: 178px;
@@ -148,17 +185,34 @@ class index_BarraLateral extends React.Component {
                         height: 33px;
                         color: #2f2f2f;
                         text-align: left;
+                        height: 41px;
+                        padding: 0;
                         padding-top: 8px;
+                        border: none;
+                        background: #ebedf1;
+                        width: 100%;
                     }
                     .itemProyecto:hover {
                         background: #f0f8ff;
                         cursor: pointer;
                     }
+                    .itemProyecto p {
+                        font-weight: 400;
+                        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+                        line-height: 1.46429em;
+                        font-size: 8pt;
+                        height: fit-content;
+                        margin-top: 4px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        color: #333;
+                        user-select: none;
+                    }
                     .ff {
-                        height: 36px;
+                        height: 29px;
                         width: 12px;
                         position: relative;
-                        top: -27px;
+                        top: -30px;
                         float: right;
                         filter: blur(3px);
                         background: #ebedf1;
@@ -167,7 +221,7 @@ class index_BarraLateral extends React.Component {
                         height: 41px;
                         width: 4px;
                         position: relative;
-                        top: -27px;
+                        top: -37px;
                         float: right;
                         right: -12px;
                         background: #ebedf1;
@@ -181,12 +235,16 @@ class index_BarraLateral extends React.Component {
                     .seleccionadoItemProyecto {
                         background: #404954;
                         color: white;
-                        height: 33px;
-                        text-align: left;
+                        height: 41px;
+                        padding: 0;
                         padding-top: 8px;
+                        border: none;
+                        text-align: left;
+                        width: 100%;
                     }
                     .seleccionadoItemProyecto:hover {
                         background: #545d69;
+                        cursor: pointer;
                     }
                     .seleccionadoItemProyecto p {
                         font-weight: 400;
@@ -197,8 +255,9 @@ class index_BarraLateral extends React.Component {
                         margin-top: 4px;
                         overflow: hidden;
                         white-space: nowrap;
+                        user-select: none;
                     }
-                    .seleccionado-ff {
+                    .seleccionadoItemProyecto .ff {
                         height: 36px;
                         width: 12px;
                         position: relative;
@@ -207,7 +266,7 @@ class index_BarraLateral extends React.Component {
                         filter: blur(1px);
                         background: #404954;
                     }
-                    .seleccionado-fx {
+                    .seleccionadoItemProyecto .fx {
                         height: 41px;
                         width: 4px;
                         position: relative;
