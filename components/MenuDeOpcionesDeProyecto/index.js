@@ -81,6 +81,7 @@ class index_MenuDeOpcionesDeProyecto extends React.Component {
                 <style jsx>{`
                     .MenuDeOpcionesDeProyecto {
                         width: 100%;
+                        height: 91px;
                     }
                     .contenedorDescripcionProyecto {
                         width: 100%;
