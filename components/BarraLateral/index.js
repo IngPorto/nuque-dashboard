@@ -1,11 +1,9 @@
 /**
  * Icono, botón nuevo proyecto, tus proyectos, buscador
  */
-import TextField from '@material-ui/core/TextField';
-import Add from '@material-ui/icons/Add';
 import Layers from '@material-ui/icons/Layers';
-import Search from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+import Add from '@material-ui/icons/Add';
 import ModalNuevoElemento from '../ModalNuevoElemento';
 
 class index_BarraLateral extends React.Component {
@@ -28,6 +26,9 @@ class index_BarraLateral extends React.Component {
 
     handleCambiarProyectoActualmenteSeleccionado = event => {
         this.props.addCambiarProyectoActualmenteSeleccionado( parseInt(event.currentTarget.id) )
+        // ::PENDIENTE:: validar si se guardó el trabajo en el playground
+        // cerrar playground
+        this.props.addVisibilidadPlayground( false )
         //console.log(event.currentTarget.id)
     }
 
@@ -51,7 +52,7 @@ class index_BarraLateral extends React.Component {
                     className="btnNuevoProyecto"
                     onClick={ this.handleModalNuevoProyecto }
                 >
-                    <Add className="" style={{
+                    <Add style={{
                         float:'left'
                     }}/>
                     <Typography variant="body1" style={{
@@ -85,6 +86,7 @@ class index_BarraLateral extends React.Component {
                                 <button
                                     className={ index == this.props.initalState.proyectoActualmenteSeleccionado ? "seleccionadoItemProyecto":"itemProyecto"} 
                                     id={ index }
+                                    key={ index }
                                     onClick = { this.handleCambiarProyectoActualmenteSeleccionado }
                                 >
                                     <Layers className="" style={{
@@ -102,24 +104,6 @@ class index_BarraLateral extends React.Component {
                         })
                     }
                 </div>
-                <div>
-                    <div className="contenedorBuscadorProyectos">
-                        <Search className="" style={{
-                            float: 'left',
-                            color: '#4f4f4f',
-                            width: '15%',
-                            marginTop: '27px'
-                        }}/>
-                        <TextField 
-                            id="input-with-icon-grid" 
-                            className="buscadorProyectos" 
-                            label="Buscar proyecto" 
-                            style= {{
-                                width: '80%'
-                            }}
-                        />
-                    </div>                    
-                </div>
                 {
                     this.state.modalNuevoProyecto &&
                     <ModalNuevoElemento 
@@ -134,7 +118,7 @@ class index_BarraLateral extends React.Component {
                     .BarraLateral {
                         width: 178px;
                         background-color: #ebedf1;
-                        height: -webkit-fill-available;
+                        height: 100vh;
                         float: left;
                         text-align: center;
                     }
@@ -225,12 +209,6 @@ class index_BarraLateral extends React.Component {
                         float: right;
                         right: -12px;
                         background: #ebedf1;
-                    }
-                    .contenedorBuscadorProyectos {
-                        width: 178px;
-                        position: absolute;
-                        bottom: 0;
-                        margin-bottom: 5px;
                     }
                     .seleccionadoItemProyecto {
                         background: #404954;
