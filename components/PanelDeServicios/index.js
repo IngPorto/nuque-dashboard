@@ -23,8 +23,16 @@ class index_PanelDeServicios extends React.Component {
         })
     }
 
-    crearNuevoServicio = (nombre, descripcion) => {
+    crearNuevoServicio = async (nombre, descripcion) => {
         this.props.addCrearNuevoServicio( nombre, descripcion, this.props.initalState.proyectoActualmenteSeleccionado )
+        // abrir o cerrar el playground
+        this.props.addVisibilidadPlayground( !this.props.initalState.visibilidadPlayground )
+        //
+        //this.props.addCambiarServicioActualmenteSeleccionado()
+
+        // Funcion async que realiza request al server y crea archivo
+        this.props.handleCrearServicioEnElServer()
+        
         this.handleModalNuevoServicio()
     }
 
@@ -43,8 +51,7 @@ class index_PanelDeServicios extends React.Component {
                             className="btnNuevoServicio"
                             onClick= { this.handleModalNuevoServicio }
                         >
-                            <Add style={{
-                            }}/>
+                            <Add />
                         </button>
                         <p className="textoNuevoServicio font-roboto-regular">Nuevo servicio</p>
                     </div>
