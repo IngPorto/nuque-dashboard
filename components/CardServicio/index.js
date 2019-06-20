@@ -32,6 +32,11 @@ export default class index_CardServicio extends React.Component{
         //console.log (this.props)
     }
 
+    handleClickNombreServicio = event => {
+        this.props.addVisibilidadPlayground( !this.props.initalState.visibilidadPlayground )
+        this.props.addCambiarServicioActualmenteSeleccionado(event.currentTarget.id)
+    }
+
     render(){
         const servicio = this.props.initalState.servicios[this.props.servicio]
         // console.log(this.props.servicio)
@@ -43,7 +48,13 @@ export default class index_CardServicio extends React.Component{
                             color: '#2f2f2f',
                             float: 'left'
                         }} />
-                        <p className="resetText tituloPerfilServicio font-roboto-regular">{ servicio.nombre }</p>
+                        <p 
+                            className="resetText tituloPerfilServicio font-roboto-regular"
+                            onClick= { this.handleClickNombreServicio }
+                            id= { servicio.id }
+                        >
+                            { servicio.nombre }
+                        </p>
                         <MoreVert 
                             style={{
                                 float: 'right',
@@ -66,10 +77,10 @@ export default class index_CardServicio extends React.Component{
                         </div>                                            
                     </div>
                     <div className="bodyPerfilDeServicio">
-                        <p className="resetText textoPerfilServicio font-roboto-regular">Acceso:</p>
-                        <p className="resetText textoPerfilServicio font-roboto-regular">Código:</p>
-                        <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo:</p>
-                        <p className="resetText textoPerfilServicio font-roboto-regular">Formato:</p>
+                        <p className="resetText textoPerfilServicio font-roboto-regular">Acceso: { servicio.rutaDeAcceso }</p>
+                        <p className="resetText textoPerfilServicio font-roboto-regular">Código: { servicio.id } </p>
+                        <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo: POST, REST</p>
+                        <p className="resetText textoPerfilServicio font-roboto-regular">Formato: JSON</p>
                     </div>
                     <div className="footerPerfilDeServicio">
                         <p className="resetText textoPerfilServicio font-roboto-regular">Creado el { servicio.fechaCreacion }</p>
