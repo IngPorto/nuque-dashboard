@@ -9,6 +9,11 @@ const initialState = {
     visibilidadModalDescripcionProyecto: false,
     // estado para gestionar los estilos del proyecto seleccionado
     proyectoActualmenteSeleccionado: '',
+    // estado para saber si estoy en un el playground, y de donde obtener los datos de
+    // servicio y dónde guardarlos
+    servicioActualmenteSeleccionado: '',
+    // estado para cambian entre el PanelDeServicios y el Playground
+    visibilidadPlayground: false,
     proyectos: [
         {
             id: "P-t8t",
@@ -80,7 +85,9 @@ export const actionTypes = {
     cambiarDescripcionProyecto: 'cambiarDescripcionProyecto',
     cambiarProyectoActualmenteSeleccionado: 'cambiarProyectoActualmenteSeleccionado',
     crearNuevoProyecto: 'crearNuevoProyecto',
-    crearNuevoServicio: 'crearNuevoServicio'
+    crearNuevoServicio: 'crearNuevoServicio',
+    visibilidadPlayground: 'visibilidadPlayground',
+    cambiarServicioActualmenteSeleccionado : 'cambiarServicioActualmenteSeleccionado'
 }
 
 export const reducer = (state = initialState, action) => {
@@ -112,16 +119,27 @@ export const reducer = (state = initialState, action) => {
         case actionTypes.crearNuevoServicio:
             const id = stringAleatorio(4)
             state.proyectos[parseInt(action.data.proyectoActualmenteSeleccionado)].servicios.push(id)
+            const proyectoActual = state.proyectos[parseInt(action.data.proyectoActualmenteSeleccionado)].id
 
             state.servicios[id] = {
                 id: id,
                 nombre: action.data.nombre,
-                toggle: "ToggleOff",
+                toggle: "ToggleOn",
                 fechaCreacion: format(new Date(), 'MM/DD/YYYY'),
-                rutaDeAcceso: "",
-                proyecto: state.proyectos[parseInt(action.data.proyectoActualmenteSeleccionado)].id
+                rutaDeAcceso: "/user_service/"+ proyectoActual + "/" + id,
+                proyecto: proyectoActual
             }
+
+            // defino como servicio actual el último servicio creado
+            state.servicioActualmenteSeleccionado = id
+            
             return { ...state };
+            break;
+        case actionTypes.visibilidadPlayground:
+            return {...state, visibilidadPlayground: action.visibilidad };
+            break;
+        case actionTypes.cambiarServicioActualmenteSeleccionado:
+            return {...state, servicioActualmenteSeleccionado: action.codigo };
             break;
         default: return state;
     }
@@ -150,6 +168,14 @@ export const addCrearNuevoProyecto = (nombre, descripcion) => dispatch => {
 
 export const addCrearNuevoServicio = (nombre, descripcion, proyectoActualmenteSeleccionado) => dispatch => {
     return dispatch({ type: actionTypes.crearNuevoServicio, data: {nombre, descripcion, proyectoActualmenteSeleccionado} })
+}
+
+export const addVisibilidadPlayground = visibilidad => dispatch => {
+    return dispatch({ type: actionTypes.visibilidadPlayground, visibilidad })
+}
+
+export const addCambiarServicioActualmenteSeleccionado = codigo => dispatch => {
+    return dispatch({ type: actionTypes.cambiarServicioActualmenteSeleccionado, codigo })
 }
 
 // Creador del Store
