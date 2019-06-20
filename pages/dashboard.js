@@ -10,6 +10,8 @@ import MenuGlobal from "../components/MenuGlobal";
 import MenuDeOpcionesDeProyecto from "../components/MenuDeOpcionesDeProyecto";
 import PanelDeServicios from "../components/PanelDeServicios";
 import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
+import FixedFooter from "../components/FixedFooter";
+import Playground from "../components/Playground";
 
 import { bindActionCreators } from 'redux'
 import { 
@@ -18,11 +20,19 @@ import {
     addCambiarVisibilidadMDP, 
     addCambiarProyectoActualmenteSeleccionado,
     addCrearNuevoProyecto,
-    addCrearNuevoServicio
+    addCrearNuevoServicio,
+    addVisibilidadPlayground,
+    addCambiarServicioActualmenteSeleccionado
 } from '../store'
 import { connect } from 'react-redux'
+import Head from 'next/head'
+
+let workspace;
 
  class Dashboard extends React.Component {
+    constructor(props){
+        super(props)
+    }
     
     static getInitialProps ({ store , x }) {
         //store.dispatch(addCambiarVisibilidadSMPS())
@@ -39,6 +49,257 @@ import { connect } from 'react-redux'
         }
     }
 
+    componentDidMount(){
+        let guardar = this.handleGuardarWorkspace;
+        // Keyboard Shortcuts
+        document.onkeyup = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.ctrlKey && e.which == 83) {
+                guardar();
+            }
+        }
+
+        // Construyo mis propios bloques
+        Blockly.Blocks['console_log'] = {
+            init: function() {
+                this.appendValueInput("NAME")
+                    .setCheck(null)
+                    .appendField("Mostrar en consola");
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(160);
+                this.setTooltip("Permite imprimir por consola del servidor.");
+                this.setHelpUrl("");
+            }
+        };
+        Blockly.JavaScript['console_log'] = function(block) {
+            var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
+            // TODO: Assemble JavaScript into code variable.
+            var code = 'console.log(' + value_name + ');';
+            return code;
+          };
+    }
+
+    componentDidUpdate(){
+        if(this.props.initalState.visibilidadPlayground){
+            workspace = Blockly.inject(
+                'blocklyDiv', 
+                {
+                    toolbox: document.getElementById('toolbox'),
+                    grid:
+                        {
+                            spacing: 20,
+                            length: 3,
+                            colour: '#ccc',
+                            snap: true
+                        },
+                    zoom:
+                        {
+                            controls: true,
+                            wheel: true,
+                            startScale: 1.0,
+                            maxScale: 3,
+                            minScale: 0.3,
+                            scaleSpeed: 1.2
+                        },
+                    scrollbars: true,
+                    trashcan: true
+                },
+            )
+            
+            if( this.props.initalState.servicioActualmenteSeleccionado != '' ){
+                this.handleCargarWorkspace()
+                //console.log("Hay un servicio seleccionado")
+            }
+        }
+        //console.log(workspace)
+        //console.log(Blockly)
+    }
+
+    handleCrearServicioEnElServer = async () => {
+        const res = await fetch(
+            'http://localhost:3000/createServiceDirectory', 
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".xml",
+                    "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                    "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                })
+            })
+    }
+
+    handleGuardarWorkspace = async () => {
+        //var code = Blockly.JavaScript.workspaceToCode(workspace);
+        //var file = new Blob([code], {type: "application/javascript"});
+        //var code =  Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
+        var code_xml =  Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Blockly.mainWorkspace))
+        var code_js = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
+        //Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(response.workspace), Blockly.mainWorkspace);
+        
+        //const _temp_handleDesplegarServicioComoJs = this.handleDesplegarServicioComoJs();
+
+
+        Promise.all([
+            fetch(
+                'http://localhost:3000/saveService', 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        "workspace" : code_xml,
+                        "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".xml",
+                        "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                        "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                    })
+                }),
+            fetch(
+                'http://localhost:3000/deployService', 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        "workspace" : code_js,
+                        "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".js",
+                        "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                        "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                    })
+                })
+        ])
+        .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+        .then(([data1, data2]) => this.setState({
+            recentInfo: data1, 
+            alltimeInfo: data2
+        }));
+
+
+        /*
+        const res = await fetch(
+            'http://localhost:3000/saveService', 
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    "workspace" : code,
+                    "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".xml",
+                    "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                    "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                })
+            }).then(function(response) {
+                //return response.json();
+                //_temp_handleDesplegarServicioComoJs()
+            })
+            .catch(function(err) {
+                console.error(err);
+            });
+        */
+    }    
+
+    // Usar el método Fetch() para hacer llamados al servidor
+    handleCargarWorkspace = async () => {
+        //Blockly.mainWorkspace.clear()
+        // var js = Blockly.JavaScript.codeToWorkspace( /* Fetch to file */ )
+        
+        //const _temp_handleDesplegarServicioComoJs = this.handleDesplegarServicioComoJs;
+        const res = await fetch(
+            'http://localhost:3000/loadService', 
+            {
+                method: 'POST',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".xml",
+                    "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                    "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                })
+            }).then(function(response) {
+                //return response.json();
+                //var xml = Blockly.Xml.textToDom( response.workspace )
+                //Blockly.Xml.domToWorkspace(xml , Blockly.mainWorkspace)
+
+                //Blockly.JavaScript.codeToWorkspace(response.workspace , Blockly.mainWorkspace);
+                
+                //var parser = new DOMParser();
+                //var xmlDoc = parser.parseFromString(data.workspace,"text/xml");
+                
+               return response.json()
+            }).then(function(data) {
+                console.log(data.workspace)
+                Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data.workspace), Blockly.mainWorkspace);
+                // this.handleDesplegarServicioComoJs()
+                //_temp_handleDesplegarServicioComoJs()
+            })
+            .catch(function(err) {
+                console.error(err);
+            });
+        /*
+        const res = await fetch(
+            'http://localhost:3000/loadService', 
+            {
+                method: 'POST',
+                body: 'hola'
+            })
+        */
+        //var xml = Blockly.Xml.textToDom( /* Fetch to file */ )
+        //Blockly.Xml.domToWorkspace(xml , Blockly.mainWorkspace)
+    }
+
+    handleDesplegarServicioComoJs = async () => {
+        var code = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
+
+        const res = await fetch(
+            'http://localhost:3000/deployService', 
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    "workspace" : code,
+                    "filename" : this.props.initalState.servicioActualmenteSeleccionado + ".js",
+                    "projectCode" : this.props.initalState.proyectos[parseInt(this.props.initalState.proyectoActualmenteSeleccionado)].id,
+                    "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
+                })
+            }).then(function(response) {
+                //return response.json();
+            })
+            .catch(function(err) {
+                console.error(err);
+            });
+    }
+
+    handleDescargarCodigoFuente = () => {
+        var code = Blockly.JavaScript.workspaceToCode(workspace);
+        var file = new Blob([code], {type: "application/javascript"});
+        var a = document.createElement("a");
+        var url = window.URL.createObjectURL(file);
+        a.href = url;
+        a.download = this.props.initalState.servicioActualmenteSeleccionado;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0);
+    }
+
     hand = () => {
         console.log(this.props.addCambiarVisibilidadSMPS(!this.props.initalState.visibilidadSubMenuPerfilServicio))
     }
@@ -50,12 +311,38 @@ import { connect } from 'react-redux'
 
         return (
             <div className="mainContainerDashboard">
+                <Head>
+                    <title>Dashboard | Nuque </title>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    <script src="/static/blockly/blockly_compressed.js"></script>
+                    <script src="/static/blockly/blocks_compressed.js"></script>
+                    <script src="/static/blockly/msg/js/es.js"></script> 
+                    <script src="/static/blockly/javascript_compressed.js"></script>
+                </Head>
+
                 <BarraLateral {...this.props} />
                 <AreaPrincipalDashboard>
                     <MenuGlobal />
-                    <MenuDeOpcionesDeProyecto {...this.props}/>
-                    <PanelDeServicios {...this.props}/>
+                    {
+                        this.props.initalState.visibilidadPlayground ?
+                        /* Playground */ 
+                        <Playground 
+                            {...this.props}
+                            handleGuardarWorkspace= { this.handleGuardarWorkspace }
+                        /> 
+                        : 
+                        <div>
+                            <MenuDeOpcionesDeProyecto {...this.props}/>
+                            <PanelDeServicios 
+                                {...this.props}
+                                handleCrearServicioEnElServer = { this.handleCrearServicioEnElServer }
+                            />
+                        </div>
+                    }
                 </AreaPrincipalDashboard>
+                <FixedFooter 
+                    {...this.props}
+                />
                 <style jsx global>{`
                     @font-face {
                         font-family: 'Roboto-thin';
@@ -126,7 +413,9 @@ const mapDispatchToProps = dispatch => {
         addCambiarVisibilidadMDP:  bindActionCreators(addCambiarVisibilidadMDP, dispatch),
         addCambiarProyectoActualmenteSeleccionado:  bindActionCreators(addCambiarProyectoActualmenteSeleccionado, dispatch),
         addCrearNuevoProyecto:  bindActionCreators(addCrearNuevoProyecto, dispatch),
-        addCrearNuevoServicio:  bindActionCreators(addCrearNuevoServicio, dispatch)
+        addCrearNuevoServicio:  bindActionCreators(addCrearNuevoServicio, dispatch),
+        addVisibilidadPlayground: bindActionCreators(addVisibilidadPlayground, dispatch),
+        addCambiarServicioActualmenteSeleccionado:  bindActionCreators(addCambiarServicioActualmenteSeleccionado, dispatch) 
     }
 }
 
