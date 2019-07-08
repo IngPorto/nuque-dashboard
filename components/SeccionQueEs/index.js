@@ -30,7 +30,9 @@ class main_SeccionQueEs extends React.Component{
                                     </Typography>
                                 </div>
                                 <div className="descripcionSeccion">
-                                    <Typography variant="body1">
+                                    <Typography variant="body1" style={{
+                                        textAlign: 'center'
+                                    }}>
                                         Es una plataforma de programación visual para crear servicios web. Desarrollar software requiere concer uno o varios lenguajes de programación, en <span className="nuqueEnTexto">nuque</span> solo requires de lógica.
                                     </Typography>
                                 </div>
@@ -73,7 +75,7 @@ class main_SeccionQueEs extends React.Component{
                                             Funcional
                                         </Typography>
                                         <Typography variant="body1">
-                                            Los proyectos desarrollados son 100% operativos y transparentes para las demás capas de una aplicacioón web.
+                                            Los proyectos desarrollados son 100% operativos y transparentes para las demás capas de una aplicación web.
                                         </Typography>
                                     </div>
                                 </div>
