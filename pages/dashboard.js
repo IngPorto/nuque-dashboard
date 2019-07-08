@@ -12,6 +12,7 @@ import PanelDeServicios from "../components/PanelDeServicios";
 import AreaPrincipalDashboard from "../components/AreaPrincipalDashboard";
 import FixedFooter from "../components/FixedFooter";
 import Playground from "../components/Playground";
+import BienvenidaNuevoProyecto from "../components/BienvenidaNuevoProyecto";
 
 import { bindActionCreators } from 'redux'
 import { 
@@ -32,6 +33,9 @@ let workspace;
  class Dashboard extends React.Component {
     constructor(props){
         super(props)
+        this.state = {
+            visibilidadGifCarga: false
+        }
     }
     
     static getInitialProps ({ store , x }) {
@@ -52,6 +56,7 @@ let workspace;
     componentDidMount(){
         let guardar = this.handleGuardarWorkspace;
         // Keyboard Shortcuts
+        /*
         document.onkeyup = function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -59,26 +64,18 @@ let workspace;
                 guardar();
             }
         }
+        */
 
-        // Construyo mis propios bloques
-        Blockly.Blocks['console_log'] = {
-            init: function() {
-                this.appendValueInput("NAME")
-                    .setCheck(null)
-                    .appendField("Mostrar en consola");
-                this.setPreviousStatement(true, null);
-                this.setNextStatement(true, null);
-                this.setColour(160);
-                this.setTooltip("Permite imprimir por consola del servidor.");
-                this.setHelpUrl("");
+        
+        document.addEventListener("keydown", function(e) {
+            //e.preventDefault();
+            //e.stopPropagation();
+            if (e.ctrlKey && e.which == 83) {
+                e.preventDefault();
+                guardar();
             }
-        };
-        Blockly.JavaScript['console_log'] = function(block) {
-            var value_name = Blockly.JavaScript.valueToCode(block, 'NAME', Blockly.JavaScript.ORDER_ATOMIC);
-            // TODO: Assemble JavaScript into code variable.
-            var code = 'console.log(' + value_name + ');';
-            return code;
-          };
+        }, false);
+        
     }
 
     componentDidUpdate(){
@@ -119,7 +116,7 @@ let workspace;
 
     handleCrearServicioEnElServer = async () => {
         const res = await fetch(
-            'http://localhost:3000/createServiceDirectory', 
+            './createServiceDirectory', 
             {
                 method: 'POST',
                 headers: {
@@ -144,10 +141,10 @@ let workspace;
         
         //const _temp_handleDesplegarServicioComoJs = this.handleDesplegarServicioComoJs();
 
-
+        this.setState({...this.state, visibilidadGifCarga:true})
         Promise.all([
             fetch(
-                'http://localhost:3000/saveService', 
+                './saveService', 
                 {
                     method: 'POST',
                     headers: {
@@ -162,7 +159,7 @@ let workspace;
                     })
                 }),
             fetch(
-                'http://localhost:3000/deployService', 
+                './deployService', 
                 {
                     method: 'POST',
                     headers: {
@@ -176,13 +173,14 @@ let workspace;
                         "serviceCode" : this.props.initalState.servicioActualmenteSeleccionado
                     })
                 })
-        ])
+        ]).then(() => this.setState({...this.state, visibilidadGifCarga:false}))
+        /*
         .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
         .then(([data1, data2]) => this.setState({
             recentInfo: data1, 
             alltimeInfo: data2
         }));
-
+        */
 
         /*
         const res = await fetch(
@@ -216,7 +214,7 @@ let workspace;
         
         //const _temp_handleDesplegarServicioComoJs = this.handleDesplegarServicioComoJs;
         const res = await fetch(
-            'http://localhost:3000/loadService', 
+            './loadService', 
             {
                 method: 'POST',
                 headers: {
@@ -238,9 +236,11 @@ let workspace;
                 //var parser = new DOMParser();
                 //var xmlDoc = parser.parseFromString(data.workspace,"text/xml");
                 
+               //return response.json()
                return response.json()
             }).then(function(data) {
-                console.log(data.workspace)
+                //console.log(data.workspace)
+                console.log(data)
                 Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data.workspace), Blockly.mainWorkspace);
                 // this.handleDesplegarServicioComoJs()
                 //_temp_handleDesplegarServicioComoJs()
@@ -264,7 +264,7 @@ let workspace;
         var code = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
 
         const res = await fetch(
-            'http://localhost:3000/deployService', 
+            './deployService', 
             {
                 method: 'POST',
                 headers: {
@@ -312,32 +312,39 @@ let workspace;
         return (
             <div className="mainContainerDashboard">
                 <Head>
-                    <title>Dashboard | Nuque </title>
+                    <title>Dashboard | Nuque</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <script src="/static/blockly/blockly_compressed.js"></script>
                     <script src="/static/blockly/blocks_compressed.js"></script>
                     <script src="/static/blockly/msg/js/es.js"></script> 
                     <script src="/static/blockly/javascript_compressed.js"></script>
+                    <link rel="stylesheet" href="/static/css/animate.min.css" />
                 </Head>
 
-                <BarraLateral {...this.props} />
+                <BarraLateral {...this.props} className="fadeInDown"/>
                 <AreaPrincipalDashboard>
                     <MenuGlobal />
                     {
-                        this.props.initalState.visibilidadPlayground ?
-                        /* Playground */ 
-                        <Playground 
-                            {...this.props}
-                            handleGuardarWorkspace= { this.handleGuardarWorkspace }
-                        /> 
-                        : 
-                        <div>
-                            <MenuDeOpcionesDeProyecto {...this.props}/>
-                            <PanelDeServicios 
+                        typeof this.props.initalState.proyectoActualmenteSeleccionado != 'number' ? 
+                            <BienvenidaNuevoProyecto {...this.props} />
+                        :
+                            this.props.initalState.visibilidadPlayground ?
+                            /* Playground */ 
+                            <Playground 
                                 {...this.props}
-                                handleCrearServicioEnElServer = { this.handleCrearServicioEnElServer }
-                            />
-                        </div>
+                                handleGuardarWorkspace= { this.handleGuardarWorkspace }
+                                visibilidadGifCarga = { this.state.visibilidadGifCarga }
+                            /> 
+                            : 
+                            <div>
+                                <MenuDeOpcionesDeProyecto {...this.props}/>
+                                <PanelDeServicios 
+                                    {...this.props}
+                                    handleCrearServicioEnElServer = { this.handleCrearServicioEnElServer }
+                                />
+                            </div>
+                        
+                            
                     }
                 </AreaPrincipalDashboard>
                 <FixedFooter 
