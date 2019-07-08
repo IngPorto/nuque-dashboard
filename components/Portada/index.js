@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Link from 'next/link';
 
 class main_Portada extends React.Component{
     render(){
@@ -32,21 +33,23 @@ class main_Portada extends React.Component{
                             }}>
                                 Servicios web en un lenguaje sencillo. No requieres aprender un nuevo lenguaje de programación, lo puedes lograr con tus habilidades lógicas.
                             </Typography>
-                            <Button 
-                                className="accederBtn" 
-                                variant="contained" 
-                                color="primary" 
-                                style={
-                                    {
-                                        color:'white', 
-                                        background:'#d85232',
-                                        borderRadius: '0px',
-                                        padding: '12px 30px'
-                                    }
-                                }>
-                                Empieza gratis
-                                <KeyboardArrowRight />
-                            </Button>
+                            <Link href="/dashboard">
+                                <Button 
+                                    className="accederBtn" 
+                                    variant="contained" 
+                                    color="primary" 
+                                    style={
+                                        {
+                                            color:'white', 
+                                            background:'#d85232',
+                                            borderRadius: '0px',
+                                            padding: '12px 30px'
+                                        }
+                                    }>
+                                    Empieza gratis
+                                    <KeyboardArrowRight />
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </Grid>
