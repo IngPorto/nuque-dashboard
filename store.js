@@ -15,6 +15,7 @@ const initialState = {
     // estado para cambian entre el PanelDeServicios y el Playground
     visibilidadPlayground: false,
     proyectos: [
+        /*
         {
             id: "P-t8t",
             nombre: "Proyecto de conexiones a servicios",
@@ -34,8 +35,10 @@ const initialState = {
                 "MXM1"
             ]
         }
+        */
     ],
     servicios: {
+        /*
         "P1B3": {
             id: "P1B3",
             nombre: "Servicio para Login",
@@ -76,6 +79,7 @@ const initialState = {
             rutaDeAcceso: "",
             proyecto: "P-as2"
         }
+        */
     }
 }
 
@@ -126,7 +130,7 @@ export const reducer = (state = initialState, action) => {
                 nombre: action.data.nombre,
                 toggle: "ToggleOn",
                 fechaCreacion: format(new Date(), 'MM/DD/YYYY'),
-                rutaDeAcceso: "/user_service/"+ proyectoActual + "/" + id,
+                rutaDeAcceso: "users_services/"+ proyectoActual + "/" + id,
                 proyecto: proyectoActual
             }
 
