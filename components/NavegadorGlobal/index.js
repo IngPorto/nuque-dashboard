@@ -25,7 +25,7 @@ class main_NavegadorGlobal extends React.Component{
                         color: '#ec7b7b'
                     }}
                 >
-                    beta
+                    Alpha
                 </Typography>
                 <div className="botoneraNav">
                     <div>
