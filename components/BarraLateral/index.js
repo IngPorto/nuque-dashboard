@@ -37,6 +37,10 @@ class index_BarraLateral extends React.Component {
         // validar nombre*, si está disponible y si tiene más de tres caracteres
         // crear proyecto en el state
         this.props.addCrearNuevoProyecto( nombre, descripcion )
+
+        this.props.addCambiarProyectoActualmenteSeleccionado( parseInt(this.props.initalState.proyectos.length) - 1 )
+        this.props.addVisibilidadPlayground( false )
+
         this.handleModalNuevoProyecto()
     }
 
@@ -46,7 +50,7 @@ class index_BarraLateral extends React.Component {
                 <div className="barraSuperiorAdorno"></div>
                 <div className="contenedorLogo">
                     <img className="logoFondoAzul" src="static/logo_nuque_bg_blue.svg" alt="" />
-                    <p className="betaTexto font-roboto-regular">beta</p>
+                    <p className="betaTexto font-roboto-regular">Alpha</p>
                 </div>
                 <button 
                     className="btnNuevoProyecto"
@@ -106,13 +110,13 @@ class index_BarraLateral extends React.Component {
                 </div>
                 {
                     this.state.modalNuevoProyecto &&
-                    <ModalNuevoElemento 
-                        { ...this.props }
-                        handleClickAceptar = { this.crearNuevoProyecto }
-                        cerrarModal = { this.handleModalNuevoProyecto }
-                        textoLabel_1 = "Nombre del proyecto"
-                        textoLabel_2 = "Descripción del proyecto"
-                    />
+                        <ModalNuevoElemento 
+                            { ...this.props }
+                            handleClickAceptar = { this.crearNuevoProyecto }
+                            cerrarModal = { this.handleModalNuevoProyecto }
+                            textoLabel_1 = "Nombre del proyecto"
+                            textoLabel_2 = "Descripción del proyecto"
+                        />
                 }
                 <style jsx>{`
                     .BarraLateral {
@@ -144,7 +148,7 @@ class index_BarraLateral extends React.Component {
                         width: fit-content;
                         position: relative;
                         top: -40px;
-                        left: 140px;
+                        left: 136px;
                     }
                     .btnNuevoProyecto {
                         width: 160px;
