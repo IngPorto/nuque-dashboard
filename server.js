@@ -77,23 +77,32 @@ app.prepare()
   server.use(bodyParser.urlencoded({ extended: false }));
   // parse application/json
   server.use(bodyParser.json());
+  // statics
+  //server.use(express.static(__dirname + '/public'));
 
   server.post('/loadService', (req, res) => {
     var dir = __dirname + '/users_services/' + req.body.projectCode + '/' + req.body.serviceCode;
     var dir_complete = dir + "/" + req.body.filename
+    
+    if (fs.existsSync(dir_complete)){
+      fs.readFile(dir_complete, (err, data) => {
+        if (err) {
+          res.status(400);
+          console.log(err);
+          res.end();
+        }
+        //var xml = require('xml');
+        //res.set('Content-Type', 'text/xml');
+        //res.send(xml(data));
+        //console.log(data.toString());
 
-    fs.readFile(dir_complete, (err, data) => {
-      if (err) {
-        res.status(400);
-        console.log(err);
-      }
-      //var xml = require('xml');
-      //res.set('Content-Type', 'text/xml');
-      //res.send(xml(data));
-      //console.log(data.toString());
+        res.status(200).jsonp({ workspace: data.toString() })
+        res.end();
 
-      res.jsonp({ workspace: data.toString() })
-    });
+      });
+    }else {
+      res.jsonp({ workspace: "No se encontró un archivo previamente guardado." }).end();
+    }
   });
 
   server.post('/createServiceDirectory/', (req, res) => {
@@ -105,16 +114,25 @@ app.prepare()
           if (err) {
             res.status(400)
             console.log(err);
+            res.end();
           }
           console.log("Directorio del servicio creado:: " + dir);
+          
           fs.writeFile( dir_complete, "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>" , (err) => {
             if (err) {
               res.status(400)
               console.log(err);
+              res.end();
             }
             console.log("Servicio vacío creado:: " + dir_complete);
+            res.status(200)
+            res.end();
           });
+          
         });
+    }else {
+      res.status(200)
+      res.end();
     }
   });
 
@@ -126,8 +144,12 @@ app.prepare()
       if (err) {
         res.status(400)
         console.log(err);
+        res.end();
       }
+      //console.log("-- Workspace -- :: " + req.body.workspace );
       console.log("Servicio actualizado :: " + dir_complete );
+      res.status(200)
+      res.end();
     });
   }); 
 
@@ -138,24 +160,42 @@ app.prepare()
     var dir = __dirname + '/users_services/' + req.body.projectCode + '/' + req.body.serviceCode;
     var dir_complete = dir + "/" + req.body.filename
 
-    var data = "var service = function (req) { \n"
+    var data = "var service = function (req, res, server) { \n"
     data += req.body.workspace
     data += "\n }; \n module.exports = service;"
 
+    /*
     fs.writeFile( dir_complete , data , (err) => {
       if (err) {
         res.status(400)
         console.log(err);
       }
-      console.log("Servicio constuido y desplegado :: " + dir_complete );
+      console.log("Servicio construido y desplegado:: " + dir_complete );
+      res.status(200).send('')
+    });
+    */
+    fs.writeFile( dir_complete , data, (err) => {
+      if (err) {
+        res.status(400)
+        console.log(err);
+        res.end();
+      }
+      console.log("Servicio construido y desplegado:: " + dir_complete );
+      res.status(200)
+      res.end();
     });
   }); 
 
-  server.get('/user_service/:proyecto/:servicio', (req, res) => {
-    // req.params.proyecto
-    // req.params.servicio
-    res.send( __dirname + '/users_services/' + req.params.proyecto + "/" + req.params.servicio + "/" + req.params.servicio + ".js" )
-    require(__dirname + '/users_services/' + req.params.proyecto + "/" + req.params.servicio + "/" + req.params.servicio + ".js")(req, res)
+  server.get('/users_services/:proyecto/:servicio', (req, res) => {
+    const ruta_servicio = __dirname + '/users_services/' + req.params.proyecto + "/" + req.params.servicio + "/" + req.params.servicio + ".js"
+    delete require.cache[require.resolve(ruta_servicio)]    
+    res.status(200)
+    res.end(require(ruta_servicio)(req, res, server))
+    //esta(req, res, server)
+    //console.dir(req.fresh)
+    //console.dir(require.cache)
+    //res.end(req.cookies); // Get dynamic file
+    //res.end(req.body);    // Post dynamic file
   })
 
   server.get('*', (req, res) => {
