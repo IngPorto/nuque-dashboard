@@ -79,7 +79,7 @@ export default class index_CardServicio extends React.Component{
                     <div className="bodyPerfilDeServicio">
                         <p className="resetText textoPerfilServicio font-roboto-regular">Acceso: { servicio.rutaDeAcceso }</p>
                         <p className="resetText textoPerfilServicio font-roboto-regular">Código: { servicio.id } </p>
-                        <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo: POST, REST</p>
+                        <p className="resetText textoPerfilServicio font-roboto-regular">Protocolo: GET, REST</p>
                         <p className="resetText textoPerfilServicio font-roboto-regular">Formato: JSON</p>
                     </div>
                     <div className="footerPerfilDeServicio">
