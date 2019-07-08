@@ -4,9 +4,9 @@
   "description": "Using Next.js, a React.js's fremework in a preactice based a platzi course.",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "SET NODE_ENV=development && node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "SET NODE_ENV=production node server.js"
   },
   "keywords": [
     "reactjs",
@@ -26,6 +26,7 @@
     "next-redux-wrapper": "3.0.0-alpha.2",
     "next-routes": "1.4.2",
     "react": "16.8.3",
+    "react-animated-css": "1.2.1",
     "react-dom": "16.8.3",
     "react-redux": "7.0.1",
     "redux": "4.0.1",
