@@ -1,9 +1,9 @@
-# Next.JS practica
+# Nuque - Master Graduation Project
 
-Using Next.js, a React.js's fremework in a preactice based a platzi course.
+Build micro-services using a block-besed language to programming server logic and deploy on live.
 
 ## Installation
-Using the terminal jump into `nextjs-practica` folder and run the follow commands:
+Using the terminal jump into `nuque-dashboard` folder and run the follow commands:
 
 ```bash
 $ npm run build
