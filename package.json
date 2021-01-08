@@ -1,15 +1,14 @@
 {
   "name": "nextjs-practica",
   "version": "1.0.0",
-  "description": "Using Next.js, a React.js's fremework in a practice based a platzi course.",
+  "description": "Build micro-services using a block-besed language to programming server logic and deploy on live.",
   "main": "index.js",
   "scripts": {
     "dev_old": "SET NODE_ENV=development && node server.js",
     "dev": "next",
     "build": "next build",
     "start_old": "SET NODE_ENV=production node server.js",
-    "start": "next start -p $PORT",
-    "heroku-postbuild": "npm run build"
+    "start": "next start -p $PORT"
   },
   "keywords": [
     "reactjs",
