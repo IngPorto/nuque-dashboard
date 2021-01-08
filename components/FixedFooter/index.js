@@ -5,7 +5,9 @@
 import TextField from '@material-ui/core/TextField';
 import Search from '@material-ui/icons/Search';
 import ToggleOn from '@material-ui/icons/ToggleOn';
+import config from '../../config'
 
+const buildedServicesRoute = config.backendEndpoint + '/service'
 class FixedFooter extends React.Component{
     render(){
         let isPlaygorund = this.props.initalState.visibilidadPlayground
@@ -70,9 +72,9 @@ class FixedFooter extends React.Component{
                                 fontSize: '13px'
 
                             }}>
-                            <a href={"./"+servicio.rutaDeAcceso} target="_blank">
+                            <a href={buildedServicesRoute + "/" +servicio.rutaDeAcceso} target="_blank">
                             { 
-                                "/"+servicio.rutaDeAcceso  
+                                buildedServicesRoute + "/" + servicio.rutaDeAcceso  
                             }
                             </a>
                         </p>
