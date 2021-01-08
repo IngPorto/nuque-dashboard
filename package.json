@@ -1,12 +1,15 @@
 {
   "name": "nextjs-practica",
   "version": "1.0.0",
-  "description": "Using Next.js, a React.js's fremework in a preactice based a platzi course.",
+  "description": "Using Next.js, a React.js's fremework in a practice based a platzi course.",
   "main": "index.js",
   "scripts": {
-    "dev": "SET NODE_ENV=development && node server.js",
+    "dev_old": "SET NODE_ENV=development && node server.js",
+    "dev": "next",
     "build": "next build",
-    "start": "SET NODE_ENV=production node server.js"
+    "start_old": "SET NODE_ENV=production node server.js",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [
     "reactjs",

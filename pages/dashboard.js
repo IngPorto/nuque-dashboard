@@ -27,10 +27,11 @@ import {
 } from '../store'
 import { connect } from 'react-redux'
 import Head from 'next/head'
+import config from '../config'
 
 let workspace;
 
- class Dashboard extends React.Component {
+class Dashboard extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -116,7 +117,7 @@ let workspace;
 
     handleCrearServicioEnElServer = async () => {
         const res = await fetch(
-            './createServiceDirectory', 
+            config.backendEndpoint + '/service/createServiceDirectory', 
             {
                 method: 'POST',
                 headers: {
@@ -144,7 +145,7 @@ let workspace;
         this.setState({...this.state, visibilidadGifCarga:true})
         Promise.all([
             fetch(
-                './saveService', 
+                config.backendEndpoint + '/service/saveService', 
                 {
                     method: 'POST',
                     headers: {
@@ -159,7 +160,7 @@ let workspace;
                     })
                 }),
             fetch(
-                './deployService', 
+                config.backendEndpoint + '/service/deployService', 
                 {
                     method: 'POST',
                     headers: {
@@ -214,7 +215,7 @@ let workspace;
         
         //const _temp_handleDesplegarServicioComoJs = this.handleDesplegarServicioComoJs;
         const res = await fetch(
-            './loadService', 
+            config.backendEndpoint + '/service/loadService', 
             {
                 method: 'POST',
                 headers: {
@@ -264,7 +265,7 @@ let workspace;
         var code = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
 
         const res = await fetch(
-            './deployService', 
+            config.backendEndpoint + '/service/deployService', 
             {
                 method: 'POST',
                 headers: {

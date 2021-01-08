@@ -1,0 +1,117 @@
+#%RAML 1.0
+title: Nuque Platform API
+description: Endpoints for deploy, request and management web services and web service editable project
+baseUri: http://localhost:3000/v1
+mediaType: application/json
+
+/loadService:
+	description: Run a existing service
+	post:
+		description: |
+		headers: 
+		body:
+			application/json:
+				projectCode:
+					description: Project ID
+					required: true
+					type: string
+					example: "P-t8t"
+				serviceCode:
+					description: Service ID
+					required: true
+					type: string
+					example: "F3WE"
+				filename:
+					description: User's file name
+					required: true
+					type: string
+					example: "My_first_service.js"
+		responses: 
+
+/createServiceDirectory:
+	description: Create a new project which includes folder and a XML file
+	post:
+		description: |
+		headers: 
+		body: 
+			application/json:
+				projectCode:
+					description: Project ID
+					required: true
+					type: string
+					example: "P-t8t"
+				serviceCode:
+					description: Service ID
+					required: true
+					type: string
+					example: "F3WE"
+				filename:
+					description: User's file name
+					required: true
+					type: string
+					example: "My_first_service.js"
+		responses: 
+
+/saveService:
+	description:
+	post:
+		description: |
+		headers: 
+		body: 
+			application/json:
+				projectCode:
+					description: Project ID
+					required: true
+					type: string
+					example: "P-t8t"
+				serviceCode:
+					description: Service ID
+					required: true
+					type: string
+					example: "F3WE"
+				filename:
+					description: User's file name
+					required: true
+					type: string
+					example: "My_first_service.js"
+		responses: 
+
+/deployService:
+	description:
+	post:
+		description: |
+		headers: 
+		body:
+			application/json:
+				projectCode:
+					description: Project ID
+					required: true
+					type: string
+					example: "P-t8t"
+				serviceCode:
+					description: Service ID
+					required: true
+					type: string
+					example: "F3WE"
+				filename:
+					description: User's file name
+					required: true
+					type: string
+					example: "My_first_service.js"
+				workspace:
+					description: Blockly xml block code
+					required: true
+					type: string
+					example: |
+						<xml xmlns="https://developers.google.com/blockly/xml"><block type="response_send" id="Hg9@Q`M#T2IG6KzyZv!#" x="150" y="170"><value name="NAME"><block type="text" id="pXli=!xh$EHFeVtL+d70"><field name="TEXT">Hola Mundo !!!</field></block></value></block></xml>
+		responses: 
+
+/users_services:
+	/{proyecto}:
+		/{servicio}:
+			get:
+				description: Access to raw editable XML Blockly code from last saved
+				headers: 
+				body: 
+				responses: 
+					200:
